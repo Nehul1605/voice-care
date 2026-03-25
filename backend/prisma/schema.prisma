@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Patient {
+  id                  String     @id @default(uuid())
+  name                String
+  phone_number        String
+  language_preference String     @default("Hindi")
+  primary_diagnosis   String     @default("General")
+  created_at          DateTime   @default(now())
+  updated_at          DateTime   @updatedAt
+  call_logs           CallLog[]
+
+  @@map("patients")
+}
+
+model CallLog {
+  id                  String    @id @default(uuid())
+  call_id             String    @unique
+  patient             Patient   @relation(fields: [patient_id], references: [id])
+  patient_id          String
+  status              String
+  transcript          String?
+  symptoms            Json?
+  risk_classification String?
+  started_at          DateTime?
+  completed_at        DateTime?
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt
+
+  @@map("call_logs")
+}
