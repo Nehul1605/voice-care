@@ -4,9 +4,9 @@ This document outlines the REST API endpoints available in the Smart VoiceCare b
 
 ## Base URL
 ```
-http://localhost:5000/api
+http://localhost:8000/api
 ```
-*(Assuming default port 5000, update based on your environment)*
+*(Assuming default port 8000, update based on your environment)*
 
 ## Authentication
 Currently, the API endpoints are internal/private and do not require separate JWT authentication in development. Ensure proper authorization when deploying to production.

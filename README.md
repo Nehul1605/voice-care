@@ -79,7 +79,7 @@ For developers, product managers, and contributors, detailed implementation inst
 
 This is a comprehensive monorepo consisting of discrete `frontend` and `backend` application modules. Run them concurrently for local development.
 
-### 1. Backend API Server (Port: 5000)
+### 1. Backend API Server (Port: 8000)
 Navigate to the `backend/` directory, install packages, and initialize the Express daemon:
 ```bash
 cd backend

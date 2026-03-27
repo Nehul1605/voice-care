@@ -38,7 +38,7 @@ Smart VoiceCare is a full-stack post-discharge patient engagement platform. It o
 Create a `.env` file in the `backend/` directory with the following shape:
 ```env
 # Server
-PORT=5000
+PORT=8000
 NODE_ENV=development
 
 # Supabase
@@ -61,7 +61,7 @@ TWILIO_PHONE_NUMBER=your-twilio-number
    ```bash
    npm run dev
    ```
-3. The server should be running concurrently at `http://localhost:5000`.
+3. The server should be running concurrently at `http://localhost:8000`.
 
 ### 4. Frontend Setup
 1. Open another terminal session and change directory to the frontend folder:
