@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/Card";
-import { mockAlerts, getRiskColor } from "../data/mockData";
+import { getRiskColor } from "../data/mockData";
 import { usePatients } from "../data/usePatients";
+import { useCalls } from "../data/useCalls";
 import { Users, AlertTriangle, Phone, TrendingUp, Clock, Bell } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { Link } from "react-router";
@@ -8,6 +9,15 @@ import { Badge } from "../components/ui/Badge";
 
 export function DoctorDashboard() {
   const { patients } = usePatients();
+  const { calls } = useCalls();
+
+  const stats = {
+    criticalCount: patients.filter(p => p.risk_classification === 'Critical' || p.riskLevel === 'critical').length,
+    highCount: patients.filter(p => p.risk_classification === 'High' || p.riskLevel === 'high').length,
+    callsCompleted: calls.filter(c => c.status === 'completed').length,
+    callsToday: calls.length,
+    pendingAlerts: calls.filter(c => ['High', 'Critical'].includes(c.risk_classification || '')).length
+  };
 
   const riskDistribution = [
     { name: "Low", value: patients.filter(p => p.riskLevel === 'low').length, color: "#4CAF50" },
@@ -26,7 +36,23 @@ export function DoctorDashboard() {
     { day: "Sun", calls: 7, alerts: 0 },
   ];
 
-  const recentAlerts = mockAlerts.slice(0, 3);
+  const recentAlerts = calls
+    .filter(call => ['high', 'critical'].includes((call.risk_classification || '').toLowerCase()))
+    .map(call => ({
+      id: call.id,
+      patientId: call.patient_id,
+      patientName: call.patient?.name || 'Unknown Patient',
+      riskLevel: (call.risk_classification || 'High').toLowerCase(),
+      timestamp: call.started_at || call.created_at,
+      symptoms: Array.isArray(call.symptoms) 
+        ? call.symptoms.map(s => String(s))
+        : typeof call.symptoms === 'object' && call.symptoms !== null 
+          ? Object.values(call.symptoms).map(s => String(s))
+          : typeof call.symptoms === 'string' ? [call.symptoms] : []
+    }))
+    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+    .slice(0, 3);
+
   const criticalPatients = patients
     .filter(p => p.riskLevel === "critical" || p.riskLevel === "high")
     .slice(0, 5);
