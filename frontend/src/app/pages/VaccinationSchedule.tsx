@@ -127,15 +127,19 @@ export default function VaccinationSchedule() {
   const filteredVaccinations = vaccinations.filter(
     (v) =>
       v.child_name.toLowerCase().includes(search.toLowerCase()) ||
-      v.vaccine_name.toLowerCase().includes(search.toLowerCase())
+      v.vaccine_name.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
     <div className="p-8 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-semibold text-primary">Vaccination Schedule</h1>
-          <p className="text-muted-foreground">Manage and track child vaccinations</p>
+          <h1 className="text-3xl font-semibold text-primary">
+            Vaccination Schedule
+          </h1>
+          <p className="text-muted-foreground">
+            Manage and track child vaccinations
+          </p>
         </div>
         <div className="flex gap-3">
           <div className="relative">
@@ -148,7 +152,10 @@ export default function VaccinationSchedule() {
               disabled={isImporting}
             />
             <Button variant="outline" asChild>
-              <label htmlFor="csv-upload" className="cursor-pointer flex items-center gap-2">
+              <label
+                htmlFor="csv-upload"
+                className="cursor-pointer flex items-center gap-2"
+              >
                 <Upload className="w-4 h-4" />
                 {isImporting ? "Importing..." : "Import CSV"}
               </label>
@@ -165,14 +172,19 @@ export default function VaccinationSchedule() {
                 <DialogTitle>Add Vaccination Entry</DialogTitle>
               </DialogHeader>
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-4"
+                >
                   <FormField
                     control={form.control}
                     name="child_name"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Child's Name</FormLabel>
-                        <FormControl><Input placeholder="John Doe" {...field} /></FormControl>
+                        <FormControl>
+                          <Input placeholder="John Doe" {...field} />
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -184,7 +196,9 @@ export default function VaccinationSchedule() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Age (Months)</FormLabel>
-                          <FormControl><Input type="number" {...field} /></FormControl>
+                          <FormControl>
+                            <Input type="number" {...field} />
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -195,7 +209,9 @@ export default function VaccinationSchedule() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Parents Number</FormLabel>
-                          <FormControl><Input placeholder="1234567890" {...field} /></FormControl>
+                          <FormControl>
+                            <Input placeholder="1234567890" {...field} />
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -207,7 +223,12 @@ export default function VaccinationSchedule() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Vaccine Name</FormLabel>
-                        <FormControl><Input placeholder="BCG, Hepatitis B, etc." {...field} /></FormControl>
+                        <FormControl>
+                          <Input
+                            placeholder="BCG, Hepatitis B, etc."
+                            {...field}
+                          />
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -219,7 +240,9 @@ export default function VaccinationSchedule() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Dose</FormLabel>
-                          <FormControl><Input placeholder="Dose 1" {...field} /></FormControl>
+                          <FormControl>
+                            <Input placeholder="Dose 1" {...field} />
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -230,13 +253,17 @@ export default function VaccinationSchedule() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Next Date</FormLabel>
-                          <FormControl><Input type="date" {...field} /></FormControl>
+                          <FormControl>
+                            <Input type="date" {...field} />
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
                   </div>
-                  <Button type="submit" className="w-full">Save Entry</Button>
+                  <Button type="submit" className="w-full">
+                    Save Entry
+                  </Button>
                 </form>
               </Form>
             </DialogContent>
@@ -271,18 +298,30 @@ export default function VaccinationSchedule() {
             </TableHeader>
             <TableBody>
               {loading ? (
-                <TableRow><TableCell colSpan={6} className="text-center py-8">Loading...</TableCell></TableRow>
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center py-8">
+                    Loading...
+                  </TableCell>
+                </TableRow>
               ) : filteredVaccinations.length === 0 ? (
-                <TableRow><TableCell colSpan={6} className="text-center py-8">No records found</TableCell></TableRow>
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center py-8">
+                    No records found
+                  </TableCell>
+                </TableRow>
               ) : (
                 filteredVaccinations.map((v) => (
                   <TableRow key={v.id}>
-                    <TableCell className="font-medium">{v.child_name}</TableCell>
+                    <TableCell className="font-medium">
+                      {v.child_name}
+                    </TableCell>
                     <TableCell>{v.age}m</TableCell>
                     <TableCell>{v.parents_number}</TableCell>
                     <TableCell>{v.vaccine_name}</TableCell>
                     <TableCell>{v.dose}</TableCell>
-                    <TableCell>{new Date(v.next_vaccination_date).toLocaleDateString()}</TableCell>
+                    <TableCell>
+                      {new Date(v.next_vaccination_date).toLocaleDateString()}
+                    </TableCell>
                   </TableRow>
                 ))
               )}

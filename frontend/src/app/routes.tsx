@@ -45,15 +45,13 @@ export const router = createBrowserRouter([
           { path: "calls", element: <CallLogs /> },
           { path: "settings", element: <Settings /> },
         ],
-      }
-    ]
+      },
+    ],
   },
   {
     path: "/admin",
     element: <ProtectedRoute />,
-    children: [
-      { path: "", element: <AdminPanel /> }
-    ]
+    children: [{ path: "", element: <AdminPanel /> }],
   },
   {
     path: "*",
