@@ -3,7 +3,6 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 import { makeOutboundCall } from "../services/twilio.service.js";
 import { PrismaClient } from "@prisma/client";
-import redis from "../config/redis.js";
 
 const prisma = new PrismaClient();
 
@@ -52,8 +51,6 @@ export const triggerPatientCall = asyncHandler(async (req, res) => {
     });
     
     // Invalidate the calls cache
-    await redis.del("calls:all");
-    await redis.del("patients:all");
   } catch (dbError) {
     console.error("Failed to insert call log natively", dbError);
   }
@@ -76,12 +73,6 @@ export const triggerPatientCall = asyncHandler(async (req, res) => {
  */
 export const getAllCalls = asyncHandler(async (req, res) => {
   try {
-    const cachedCalls = await redis.get("calls:all");
-    if (cachedCalls) {
-      return res
-        .status(200)
-        .json(new ApiResponse(200, JSON.parse(cachedCalls), "Call logs retrieved successfully from cache"));
-    }
 
     const calls = await prisma.callLog.findMany({
       include: {
@@ -92,7 +83,6 @@ export const getAllCalls = asyncHandler(async (req, res) => {
       },
     });
 
-    await redis.set("calls:all", JSON.stringify(calls), "EX", 300); // Cache for 5 minutes
 
     return res
       .status(200)

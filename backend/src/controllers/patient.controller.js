@@ -2,7 +2,6 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 import { PrismaClient } from "@prisma/client";
-import redis from "../config/redis.js";
 import twilio from "twilio";
 
 const prisma = new PrismaClient({});
@@ -14,12 +13,6 @@ const prisma = new PrismaClient({});
  */
 export const getAllPatients = asyncHandler(async (req, res) => {
   try {
-    const cachedPatients = await redis.get("patients:all");
-    if (cachedPatients) {
-      return res
-        .status(200)
-        .json(new ApiResponse(200, JSON.parse(cachedPatients), "Patients retrieved successfully from cache"));
-    }
 
     const patients = await prisma.patient.findMany({
       include: {
@@ -32,8 +25,6 @@ export const getAllPatients = asyncHandler(async (req, res) => {
         created_at: "desc",
       },
     });
-
-    await redis.set("patients:all", JSON.stringify(patients), "EX", 3600); // Cache for 1 hour
 
     return res
       .status(200)
@@ -70,7 +61,6 @@ export const addPatient = asyncHandler(async (req, res) => {
     });
 
     // Invalidate the patients cache
-    await redis.del("patients:all");
 
     return res
       .status(201)
