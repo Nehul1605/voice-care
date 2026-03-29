@@ -1,96 +1,122 @@
-import { Calendar, Clock, Phone, CheckCircle, XCircle } from 'lucide-react';
-import { useAppointments } from '../data/useAppointments';
+import { Calendar, Clock, Phone, CheckCircle, XCircle } from "lucide-react";
+import { useAppointments } from "../data/useAppointments";
 
 export default function Schedule() {
   const { appointments, approveAppointment } = useAppointments();
   // Mock schedule data
   const schedules = [
-    { 
-      id: 'S001', 
-      patientId: 'P001', 
-      patientName: 'Rajesh Kumar', 
-      scheduledAt: '2026-03-24T10:00:00', 
-      status: 'pending',
-      callDay: 'Day 7'
+    {
+      id: "S001",
+      patientId: "P001",
+      patientName: "Rajesh Kumar",
+      scheduledAt: "2026-03-24T10:00:00",
+      status: "pending",
+      callDay: "Day 7",
     },
-    { 
-      id: 'S002', 
-      patientId: 'P002', 
-      patientName: 'Priya Sharma', 
-      scheduledAt: '2026-03-24T11:30:00', 
-      status: 'pending',
-      callDay: 'Day 7'
+    {
+      id: "S002",
+      patientId: "P002",
+      patientName: "Priya Sharma",
+      scheduledAt: "2026-03-24T11:30:00",
+      status: "pending",
+      callDay: "Day 7",
     },
-    { 
-      id: 'S003', 
-      patientId: 'P003', 
-      patientName: 'Amit Patel', 
-      scheduledAt: '2026-03-24T14:00:00', 
-      status: 'pending',
-      callDay: 'Day 3'
+    {
+      id: "S003",
+      patientId: "P003",
+      patientName: "Amit Patel",
+      scheduledAt: "2026-03-24T14:00:00",
+      status: "pending",
+      callDay: "Day 3",
     },
-    { 
-      id: 'S004', 
-      patientId: 'P004', 
-      patientName: 'Lakshmi Reddy', 
-      scheduledAt: '2026-03-24T15:30:00', 
-      status: 'completed',
-      callDay: 'Day 1'
+    {
+      id: "S004",
+      patientId: "P004",
+      patientName: "Lakshmi Reddy",
+      scheduledAt: "2026-03-24T15:30:00",
+      status: "completed",
+      callDay: "Day 1",
     },
-    { 
-      id: 'S005', 
-      patientId: 'P005', 
-      patientName: 'Mohammed Ali', 
-      scheduledAt: '2026-03-24T09:00:00', 
-      status: 'failed',
-      callDay: 'Day 7'
+    {
+      id: "S005",
+      patientId: "P005",
+      patientName: "Mohammed Ali",
+      scheduledAt: "2026-03-24T09:00:00",
+      status: "failed",
+      callDay: "Day 7",
     },
   ];
 
-  const pendingCalls = schedules.filter(s => s.status === 'pending');
-  const completedCalls = schedules.filter(s => s.status === 'completed');
-  const failedCalls = schedules.filter(s => s.status === 'failed');
+  const pendingCalls = schedules.filter((s) => s.status === "pending");
+  const completedCalls = schedules.filter((s) => s.status === "completed");
+  const failedCalls = schedules.filter((s) => s.status === "failed");
 
   return (
     <div className="p-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl mb-2 text-primary">Call Schedule & Appointments</h1>
-        <p className="text-muted-foreground">Automated follow-up call timeline & pending appointments</p>
+        <h1 className="text-3xl mb-2 text-primary">
+          Call Schedule & Appointments
+        </h1>
+        <p className="text-muted-foreground">
+          Automated follow-up call timeline & pending appointments
+        </p>
       </div>
 
       {/* AI Requested Appointments */}
       <div className="bg-card p-6 rounded-xl shadow-md border border-border mb-8">
         <div className="flex items-center gap-2 mb-4">
           <Calendar className="w-5 h-5 text-accent-foreground" />
-          <h2 className="text-xl text-primary">Pending AI Appointments (HITL)</h2>
+          <h2 className="text-xl text-primary">
+            Pending AI Appointments (HITL)
+          </h2>
         </div>
-        {appointments.filter((a) => a.status === 'PENDING').length === 0 ? (
-          <p className="text-muted-foreground">No pending appointments requested by AI.</p>
+        {appointments.filter((a) => a.status === "PENDING").length === 0 ? (
+          <p className="text-muted-foreground">
+            No pending appointments requested by AI.
+          </p>
         ) : (
           <div className="space-y-4">
-            {appointments.filter((a) => a.status === 'PENDING').map((appt) => (
-              <div key={appt.id} className="flex items-center justify-between p-4 rounded-lg border border-accent/30 bg-accent/5">
-                <div>
-                  <p className="font-semibold text-primary">{appt.patient?.name}</p>
-                  <p className="text-sm text-muted-foreground">Diagnosis: {appt.patient?.primary_diagnosis}</p>
-                  <p className="text-sm text-primary mt-1">Requested Time: {new Date(appt.proposed_time).toLocaleString()}</p>
-                </div>
-                <button
-                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
-                  onClick={async () => {
-                    try {
-                      await approveAppointment(appt.id);
-                      alert('Appointment Approved & SMS sent to patient!');
-                    } catch (e) {
-                      alert('Failed to approve appointment');
-                    }
-                  }}
+            {appointments
+              .filter((a) => a.status === "PENDING")
+              .map((appt) => (
+                <div
+                  key={appt.id}
+                  className="flex items-center justify-between p-4 rounded-lg border border-accent/30 bg-accent/5"
                 >
-                  Approve (Send SMS)
-                </button>
-              </div>
-            ))}
+                  <div>
+                    <p className="font-semibold text-primary">
+                      {appt.patient?.name}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Diagnosis: {appt.patient?.primary_diagnosis}
+                    </p>
+                    {appt.proposed_date ? (
+                      <p className="text-sm text-primary mt-1">
+                        Requested Session: {appt.proposed_date} (
+                        {appt.proposed_session})
+                      </p>
+                    ) : (
+                      <p className="text-sm text-primary mt-1">
+                        Requested Session: {appt.proposed_session}
+                      </p>
+                    )}
+                  </div>
+                  <button
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+                    onClick={async () => {
+                      try {
+                        await approveAppointment(appt.id);
+                        alert("Appointment Approved & SMS sent to patient!");
+                      } catch (e) {
+                        alert("Failed to approve appointment");
+                      }
+                    }}
+                  >
+                    Approve (Send SMS)
+                  </button>
+                </div>
+              ))}
           </div>
         )}
       </div>
@@ -115,7 +141,9 @@ export default function Schedule() {
               <CheckCircle className="w-6 h-6 text-green-600" />
             </div>
             <div>
-              <div className="text-2xl text-green-600">{completedCalls.length}</div>
+              <div className="text-2xl text-green-600">
+                {completedCalls.length}
+              </div>
               <p className="text-sm text-muted-foreground">Completed</p>
             </div>
           </div>
@@ -143,15 +171,22 @@ export default function Schedule() {
 
         <div className="space-y-4">
           {schedules
-            .sort((a, b) => new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime())
+            .sort(
+              (a, b) =>
+                new Date(a.scheduledAt).getTime() -
+                new Date(b.scheduledAt).getTime(),
+            )
             .map((schedule) => {
-              const time = new Date(schedule.scheduledAt).toLocaleTimeString('en-IN', {
-                hour: '2-digit',
-                minute: '2-digit'
-              });
+              const time = new Date(schedule.scheduledAt).toLocaleTimeString(
+                "en-IN",
+                {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                },
+              );
 
               return (
-                <div 
+                <div
                   key={schedule.id}
                   className="flex items-center gap-4 p-4 rounded-lg border border-border hover:bg-secondary/30 transition-colors"
                 >
@@ -162,17 +197,17 @@ export default function Schedule() {
 
                   {/* Status Icon */}
                   <div className="flex-shrink-0">
-                    {schedule.status === 'pending' && (
+                    {schedule.status === "pending" && (
                       <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
                         <Clock className="w-5 h-5 text-accent-foreground" />
                       </div>
                     )}
-                    {schedule.status === 'completed' && (
+                    {schedule.status === "completed" && (
                       <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
                         <CheckCircle className="w-5 h-5 text-green-600" />
                       </div>
                     )}
-                    {schedule.status === 'failed' && (
+                    {schedule.status === "failed" && (
                       <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
                         <XCircle className="w-5 h-5 text-red-600" />
                       </div>
@@ -181,7 +216,9 @@ export default function Schedule() {
 
                   {/* Patient Info */}
                   <div className="flex-1">
-                    <div className="text-primary mb-1">{schedule.patientName}</div>
+                    <div className="text-primary mb-1">
+                      {schedule.patientName}
+                    </div>
                     <div className="text-sm text-muted-foreground">
                       Post-discharge {schedule.callDay} follow-up
                     </div>
@@ -189,17 +226,17 @@ export default function Schedule() {
 
                   {/* Status Badge */}
                   <div>
-                    {schedule.status === 'pending' && (
+                    {schedule.status === "pending" && (
                       <span className="px-3 py-1 bg-accent/20 text-accent-foreground rounded-full text-sm capitalize">
                         Scheduled
                       </span>
                     )}
-                    {schedule.status === 'completed' && (
+                    {schedule.status === "completed" && (
                       <span className="px-3 py-1 bg-green-100 text-green-600 rounded-full text-sm capitalize">
                         Completed
                       </span>
                     )}
-                    {schedule.status === 'failed' && (
+                    {schedule.status === "failed" && (
                       <span className="px-3 py-1 bg-red-100 text-red-600 rounded-full text-sm capitalize">
                         Failed
                       </span>
@@ -207,7 +244,7 @@ export default function Schedule() {
                   </div>
 
                   {/* Action */}
-                  {schedule.status === 'pending' && (
+                  {schedule.status === "pending" && (
                     <button className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm flex items-center gap-2">
                       <Phone className="w-4 h-4" />
                       Call Now
@@ -223,7 +260,7 @@ export default function Schedule() {
       <div className="mt-6 bg-card p-6 rounded-xl shadow-md border border-border">
         <h2 className="text-xl mb-4 text-primary">This Week Overview</h2>
         <div className="grid grid-cols-7 gap-2">
-          {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, idx) => (
+          {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day, idx) => (
             <div key={day} className="text-center">
               <div className="text-sm text-muted-foreground mb-2">{day}</div>
               <div className="bg-secondary rounded-lg p-3">

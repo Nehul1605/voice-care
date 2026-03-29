@@ -13,9 +13,11 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
+import { AppointmentFormModal } from "../components/AppointmentFormModal";
 
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [appointmentModalOpen, setAppointmentModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen">
@@ -61,6 +63,12 @@ export default function LandingPage() {
               >
                 Impact
               </a>
+              <button
+                onClick={() => setAppointmentModalOpen(true)}
+                className="text-muted-foreground hover:text-primary transition-colors font-medium"
+              >
+                Book Appointment
+              </button>
               <div className="flex items-center gap-3 ml-4 relative z-50">
                 <Link
                   to="/signin"
@@ -76,6 +84,12 @@ export default function LandingPage() {
                 </Link>
               </div>
             </div>
+
+            {/* Appointment Modal */}
+            <AppointmentFormModal
+              open={appointmentModalOpen}
+              onOpenChange={setAppointmentModalOpen}
+            />
 
             {/* Mobile Menu Button */}
             <button
@@ -112,6 +126,15 @@ export default function LandingPage() {
                 >
                   Impact
                 </a>
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setAppointmentModalOpen(true);
+                  }}
+                  className="text-muted-foreground hover:text-primary transition-colors py-2 text-left font-medium"
+                >
+                  Book Appointment
+                </button>
                 <Link
                   to="/signin"
                   className="text-primary hover:text-primary/80 transition-colors py-2 font-medium"
