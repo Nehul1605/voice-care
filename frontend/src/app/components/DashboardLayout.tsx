@@ -1,21 +1,23 @@
-import { Link, Outlet, useLocation } from 'react-router';
-import { 
-  LayoutDashboard, 
-  Users, 
-  Bell, 
-  Calendar, 
+import { Link, Outlet, useLocation } from "react-router";
+import {
+  LayoutDashboard,
+  Users,
+  Bell,
+  Calendar,
   Settings,
   Phone,
-  LogOut
-} from 'lucide-react';
+  LogOut,
+  ShieldPlus,
+} from "lucide-react";
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Patients', href: '/dashboard/patients', icon: Users },
-  { name: 'Alerts', href: '/dashboard/alerts', icon: Bell },
-  { name: 'Schedule', href: '/dashboard/schedule', icon: Calendar },
-  { name: 'Call Logs', href: '/dashboard/calls', icon: Phone },
-  { name: 'Settings', href: '/dashboard/settings', icon: Settings },
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "Patients", href: "/dashboard/patients", icon: Users },
+  { name: "Alerts", href: "/dashboard/alerts", icon: Bell },
+  { name: "Schedule", href: "/dashboard/schedule", icon: Calendar },
+  { name: "Vaccinations", href: "/dashboard/vaccinations", icon: ShieldPlus },
+  { name: "Call Logs", href: "/dashboard/calls", icon: Phone },
+  { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
 export default function DashboardLayout() {
@@ -31,7 +33,9 @@ export default function DashboardLayout() {
             <Phone className="w-8 h-8 text-sidebar-primary" />
             <div>
               <h1 className="text-lg">Smart VoiceCare</h1>
-              <p className="text-xs text-sidebar-foreground/70">Doctor Portal</p>
+              <p className="text-xs text-sidebar-foreground/70">
+                Doctor Portal
+              </p>
             </div>
           </div>
         </div>
@@ -46,9 +50,10 @@ export default function DashboardLayout() {
                 to={item.href}
                 className={`
                   flex items-center gap-3 px-4 py-3 rounded-lg transition-colors
-                  ${isActive 
-                    ? 'bg-sidebar-accent text-sidebar-accent-foreground' 
-                    : 'text-sidebar-foreground/80 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground'
+                  ${
+                    isActive
+                      ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                      : "text-sidebar-foreground/80 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
                   }
                 `}
               >
